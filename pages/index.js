@@ -16,21 +16,21 @@ import { useRouter } from "next/router";
 
 const Login = () => {
   const [userInput, setUserInput] = useState("");
-  const [radioInput, setRadioInput] = useState("1");
+  const [radioInput, setRadioInput] = useState("contractor");
   const router = useRouter();
 
   const handleSubmit = async () => {
     try {
       const body = {
         name: userInput,
-        userType: parseInt(radioInput),
+        userType: radioInput,
       };
 
       const response = await (await axios.post("api/user/login", body)).data;
       console.log(response);
       const userType = response.userType;
 
-      if (userType === 1) {
+      if (userType === "contractor") {
         router.push("/contractor");
       } else {
         router.push("/user");
@@ -62,10 +62,10 @@ const Login = () => {
 
         <RadioGroup onChange={setRadioInput} value={radioInput}>
           <Stack spacing={5} direction="row">
-            <Radio colorScheme="red" value="0">
+            <Radio colorScheme="red" value="user">
               User
             </Radio>
-            <Radio colorScheme="green" value="1">
+            <Radio colorScheme="green" value="contractor">
               Contractor
             </Radio>
           </Stack>
