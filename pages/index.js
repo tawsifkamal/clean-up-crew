@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div>
      <Heading>
-       Hello World
+       Sign Up 
      </Heading>
     </div>
   )
