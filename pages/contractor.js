@@ -1,7 +1,7 @@
 import { Heading } from "@chakra-ui/react";
 
-const ContractorFeed = () => {
+const Contractor = () => {
   return <Heading>Contractor Feed</Heading>;
 };
 
-export default ContractorFeed;
+export default Contractor;

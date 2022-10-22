@@ -31,9 +31,9 @@ const Login = () => {
       const userType = response.userType;
 
       if (userType === 1) {
-        router.push("/contractorFeed");
+        router.push("/contractor");
       } else {
-        router.push("/userFeed");
+        router.push("/user");
       }
     } catch (err) {
       console.log(err);
