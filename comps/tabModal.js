@@ -1,6 +1,6 @@
 import { Button, createIcon, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { userContext } from "../pages/userFeed";
 
 export const CameraIcon = createIcon({
@@ -24,17 +24,22 @@ export const HomeIcon = createIcon({
 
 export default function TabModal() {
     const router = useRouter();
-    const {userType} = useContext(userContext)
+    const userType = useContext(userContext);
+
+    useEffect(() => {
+        console.log(userType)
+    }, [])
 
     function handleHome() {
-        if (userType == 'user') {
-            router.push("/userFeed")
-        } else {
-            router.push("/contractorFeed")
-        }
+        router.push("/userFeed")
     }
 
     function handleCamera() {
+        if (userType == 'user') {
+            router.push("/userFeed")
+        } else {
+            router.push("/myissues")
+        }
 
     }
 
@@ -43,7 +48,7 @@ export default function TabModal() {
         <Button h='100%' w='50%' borderRadius='25px 0 0 25px' onClick={handleHome}>
         <HomeIcon />
         </Button>
-        <Button h='100%' w='50%' borderRadius='0 25px 25px 0'>
+        <Button h='100%' w='50%' borderRadius='0 25px 25px 0' onClick={handleCamera}>
         <CameraIcon />
         </Button>
       </Flex>
