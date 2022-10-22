@@ -57,7 +57,7 @@ export const CoinIcon = createIcon({
 
 export default function IssueFeedCard() {
 
-    const {userType} = useContext(userContext);
+    const userType = useContext(userContext);
     return (
       <Box
         my="2"
@@ -84,7 +84,7 @@ export default function IssueFeedCard() {
           border="none"
         ></Textarea>
         <Flex flexDirection="row" px="2">
-          {userType == "user" ? (
+          {userType == 'user' ? (
             <Flex flexDirection="row">
               <Button>
                 <LoveIcon />

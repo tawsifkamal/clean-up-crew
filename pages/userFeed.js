@@ -8,7 +8,7 @@ export const userContext = createContext();
 const UserFeed = () => {
   const [feed, setFeed] = useState([]);
   const [userData, setUserData] = useState({
-    userType: 'user'
+    userType: 'contractor'
   });
 
   return (
