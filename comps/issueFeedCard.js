@@ -1,5 +1,16 @@
-import { Box, Button, createIcon, Flex, Icon, Spacer, Text, Textarea } from "@chakra-ui/react"
-import { useState } from "react"
+import {
+  Box,
+  Button,
+  createIcon,
+  Flex,
+  Icon,
+  Spacer,
+  Text,
+  Image,
+  Heading,
+  Textarea,
+} from "@chakra-ui/react";
+import { useState } from "react";
 
 export const PinIcon = createIcon({
   displayName: "PinIcon",
@@ -13,15 +24,15 @@ export const PinIcon = createIcon({
 });
 
 export const LoveIcon = createIcon({
-    displayName: "LoveIcon",
-    viewBox: "0 0 32 32",
-    path: (
-        <path 
-        fill="blackAlpha.700"
-        d="M26.996 12.898c-.064-2.207-1.084-4.021-2.527-5.13-1.856-1.428-4.415-1.69-6.542-.132-.702.516-1.359 1.23-1.927 2.168-.568-.938-1.224-1.652-1.927-2.167-2.127-1.559-4.685-1.297-6.542.132-1.444 1.109-2.463 2.923-2.527 5.13-.035 1.172.145 2.48.788 3.803 1.01 2.077 5.755 6.695 10.171 10.683l.035.038.002-.002.002.002.036-.038c4.415-3.987 9.159-8.605 10.17-10.683.644-1.323.822-2.632.788-3.804z"
-        />
-    ),
-})
+  displayName: "LoveIcon",
+  viewBox: "0 0 32 32",
+  path: (
+    <path
+      fill="blackAlpha.700"
+      d="M26.996 12.898c-.064-2.207-1.084-4.021-2.527-5.13-1.856-1.428-4.415-1.69-6.542-.132-.702.516-1.359 1.23-1.927 2.168-.568-.938-1.224-1.652-1.927-2.167-2.127-1.559-4.685-1.297-6.542.132-1.444 1.109-2.463 2.923-2.527 5.13-.035 1.172.145 2.48.788 3.803 1.01 2.077 5.755 6.695 10.171 10.683l.035.038.002-.002.002.002.036-.038c4.415-3.987 9.159-8.605 10.17-10.683.644-1.323.822-2.632.788-3.804z"
+    />
+  ),
+});
 
 export const DollarIcon = createIcon({
   displayName: "DollarIcon",
@@ -46,64 +57,71 @@ export const StarIcon = createIcon({
 });
 
 export const CoinIcon = createIcon({
-    displayName: "CoinIcon",
-    viewBox: "0 0 32 32",
-    path: (
-        <path d="M16 27C9.935 27 5 22.067 5 16 5 9.935 9.935 5 16 5c6.066 0 11 4.935 11 11 0 6.067-4.934 11-11 11zm-5.362-3.836A8.859 8.859 0 0 0 16 24.953c1.075 0 2.13-.191 3.138-.568a42.956 42.956 0 0 0-1.792-6.675c-3.929 1.275-5.954 4.137-6.708 5.454zm8.718-5.93a45.7 45.7 0 0 1 1.673 6.167 8.924 8.924 0 0 0 3.814-6.022 18.372 18.372 0 0 0-3.283-.311 14.353 14.353 0 0 0-2.204.166zM7.045 16c0 2.098.741 4.128 2.088 5.739 1.096-1.711 3.428-4.538 7.475-5.916-.186-.433-.38-.864-.582-1.287-3.483 1.003-7.049 1.252-8.979 1.308L7.045 16zm14.58-.973c1.061 0 2.17.095 3.304.286a8.858 8.858 0 0 0-1.826-4.755c-1.179 1.345-2.895 2.46-5.106 3.319.209.451.419.928.623 1.421.96-.181 1.97-.271 3.005-.271zm-9.869-6.906a8.952 8.952 0 0 0-4.429 5.66c1.715-.073 4.774-.314 7.737-1.103-1.351-2.4-2.615-3.854-3.308-4.557zm2.062-.804c.848.948 2.041 2.487 3.256 4.724 2.058-.767 3.602-1.763 4.598-2.961A8.946 8.946 0 0 0 16 7.046c-.734 0-1.466.091-2.182.271z" />
-    )
-})
+  displayName: "CoinIcon",
+  viewBox: "0 0 32 32",
+  path: (
+    <path d="M16 27C9.935 27 5 22.067 5 16 5 9.935 9.935 5 16 5c6.066 0 11 4.935 11 11 0 6.067-4.934 11-11 11zm-5.362-3.836A8.859 8.859 0 0 0 16 24.953c1.075 0 2.13-.191 3.138-.568a42.956 42.956 0 0 0-1.792-6.675c-3.929 1.275-5.954 4.137-6.708 5.454zm8.718-5.93a45.7 45.7 0 0 1 1.673 6.167 8.924 8.924 0 0 0 3.814-6.022 18.372 18.372 0 0 0-3.283-.311 14.353 14.353 0 0 0-2.204.166zM7.045 16c0 2.098.741 4.128 2.088 5.739 1.096-1.711 3.428-4.538 7.475-5.916-.186-.433-.38-.864-.582-1.287-3.483 1.003-7.049 1.252-8.979 1.308L7.045 16zm14.58-.973c1.061 0 2.17.095 3.304.286a8.858 8.858 0 0 0-1.826-4.755c-1.179 1.345-2.895 2.46-5.106 3.319.209.451.419.928.623 1.421.96-.181 1.97-.271 3.005-.271zm-9.869-6.906a8.952 8.952 0 0 0-4.429 5.66c1.715-.073 4.774-.314 7.737-1.103-1.351-2.4-2.615-3.854-3.308-4.557zm2.062-.804c.848.948 2.041 2.487 3.256 4.724 2.058-.767 3.602-1.763 4.598-2.961A8.946 8.946 0 0 0 16 7.046c-.734 0-1.466.091-2.182.271z" />
+  ),
+});
 
-
-export default function IssueFeedCard({userType}) {
-
-    
-    return (
-      <Box
-        my="2"
-        mx="3"
-        h="lg"
-        w=""
-        boxShadow="2px 2px 4px gray"
-        borderRadius="25px"
+export default function IssueFeedCard({
+  userType,
+  name,
+  description,
+  totalContributed,
+  imageUrl,
+  location,
+}) {
+  return (
+    <Box
+      my="4"
+      mx="3"
+      h="lg"
+      w="xs"
+      boxShadow="2px 2px 4px gray"
+      borderRadius="25px"
+    >
+      <Flex
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="left"
+        h="7.5%"
       >
-        <Flex
-          flexDirection="row"
-          alignItems="center"
-          justifyContent="left"
-          h="7.5%"
-        >
-          <PinIcon padding="0.2" h="100%" w="8vw" />
-          <Text>Atlanta, GA</Text>
+        <PinIcon padding="0.2" h="100%" w="8vw" />
+        <Flex flexDir="column">
+          <Text>
+            {location}
+          </Text>
         </Flex>
-        <Box bg="gray.400" w="100%%" h="50%"></Box>
-        <Textarea
-          placeholder="Description of the Issue"
-          w="100%"
-          h="30%"
-          border="none"
-        ></Textarea>
-        <Flex flexDirection="row" px="2">
-          {userType == "user" ? (
-            <Flex flexDirection="row">
-              <Button>
-                <LoveIcon />
-              </Button>
-              <Button>
-                <DollarIcon />
-              </Button>
-            </Flex>
-          ) : (
+      </Flex>
+      <Image src={imageUrl} width="100%" h="50%" alt="post picture" />
+      <Heading fontSize="xl" pl={4} pt={2}>
+        {name}
+      </Heading>
+      <Text w="100%" h="25%" pl={4}>
+        {description}
+      </Text>
+      <Flex flexDirection="row" px="2">
+        {userType == "user" ? (
+          <Flex flexDirection="row" gap={2}>
             <Button>
-              <StarIcon />
+              <LoveIcon />
             </Button>
-          )}
-          <Spacer />
-          <Flex mx='2' alignItems='center' flexDirection='row'>
-            <CoinIcon />
-            <Text>123 </Text>
+            <Button>
+              <DollarIcon />
+            </Button>
           </Flex>
+        ) : (
+          <Button>
+            <StarIcon />
+          </Button>
+        )}
+        <Spacer />
+        <Flex mx="2" alignItems="center" flexDirection="row">
+          <CoinIcon />
+          <Text>{totalContributed}</Text>
         </Flex>
-      </Box>
-    );
-
+      </Flex>
+    </Box>
+  );
 }

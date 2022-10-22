@@ -33,7 +33,7 @@ const Login = () => {
       if (userType === "contractor") {
         router.push("/contractor");
       } else {
-        router.push("/user");
+        router.push("/userFeed");
       }
     } catch (err) {
       console.log(err);
