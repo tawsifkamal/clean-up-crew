@@ -10,6 +10,7 @@ export default async function handler(req, res) {
       name: req.body.name,
       totalContributed: req.body.totalContributed,
       contributors: req.body.contributors,
+      contractor: req.body.contractor,
       score: req.body.score,
       description: req.body.description,
       location: req.body.location,
