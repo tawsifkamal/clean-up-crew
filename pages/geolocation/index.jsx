@@ -1,14 +1,24 @@
+import { useEffect, useState } from "react";
 import { useGeolocated } from "react-geolocated"; //npm i react-geolocated --save      
 import ScoringAlgo from "../../lib/scoringAlgo";
 
 export default function Geolocation() {
+    const [hasMounted, setHasMounted] = useState(false);
+    useEffect(() => setHasMounted(true), []);
+    
+    const [score, setScore] = useState(0);
     const { coords, isGeolocationAvailable, isGeolocationEnabled } =
-        useGeolocated({
+    useGeolocated({
             positionOptions: {
                 enableHighAccuracy: false,
             },
             userDecisionTimeout: 50000,
         });
+    useEffect(() => {
+        if (coords !== undefined && coords.latitude !== undefined && coords.longitude !== undefined) {
+            setScore(() => ScoringAlgo(coords, dummyMany, dummy1));
+        }
+    }, [coords])
 
     const dummy1 = {
         latitude: 42.734105,
@@ -46,9 +56,11 @@ export default function Geolocation() {
             longitude: -90.974663
         },    
     ]
-    console.log(coords);
-    const score = 0 // ScoringAlgo(coords, dummyMany, dummy1);
-    return !isGeolocationAvailable ? "Geolocation not available" : !isGeolocationEnabled ? "Geolocation is not enabled" : <div>
+
+    if (!hasMounted) {
+        return null;
+    }
+    return !coords ? "No coords available" : <div>
         Your latitude is {coords.latitude} and your longitude is {coords.longitude}
         Your score is {score}
     </div>
