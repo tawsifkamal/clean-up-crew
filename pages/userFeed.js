@@ -1,22 +1,20 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
-import { createContext, useState } from "react";
+import { Box, Flex } from "@chakra-ui/react";
+import { useState, createContext } from "react";
 import IssueFeedCard from "../comps/issueFeedCard";
-import TabModal from "../comps/tabModal";
+import Post from "../lib/models/Post";
 
 export const userContext = createContext();
 
-const UserFeed = () => {
-  const [feed, setFeed] = useState([]);
-  const [userData, setUserData] = useState({
-    userType: 'contractor'
-  });
+const UserFeed = ({ posts }) => {
+  const [feed, setFeed] = useState(posts);
+  const [userData, setUserData] = useState({ userType: "contractor" });
 
   return (
     <userContext.Provider value={userData.userType}>
-      <Box className="UserFeed" color={"blackAlpha.700"}>
+      <Box className="Header" color={"blackAlpha.700"}>
         <Flex
           className="HeaderBox"
-          bg="blue.500"
+          bg="tomato"
           color={"black"}
           h="10vh"
           w="100vw"
@@ -26,16 +24,38 @@ const UserFeed = () => {
           flexDirection="column"
           overflowY="scroll"
           justifyContent="center"
+          alignItems="center"
         >
-          <IssueFeedCard />
-          <IssueFeedCard />
-          <IssueFeedCard />
-          <IssueFeedCard />
+          {feed.map((post, index) => {
+            return (
+              <IssueFeedCard
+                key={index}
+                userType="user"
+                name={post.name}
+                description={post.description}
+                totalContributed={post.totalContributed}
+                imageUrl={post.imageUrl}
+                location={post.location.readableAddress}
+              />
+            );
+          })}
         </Flex>
-        <TabModal/>
       </Box>
     </userContext.Provider>
   );
 };
+
+export async function getServerSideProps() {
+  try {
+    const posts = await Post.find({});
+    return {
+      props: {
+        posts: JSON.parse(JSON.stringify(posts)),
+      },
+    };
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 export default UserFeed;
