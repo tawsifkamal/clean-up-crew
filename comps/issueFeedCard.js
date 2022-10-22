@@ -1,5 +1,6 @@
 import { Box, Button, createIcon, Flex, Icon, Spacer, Text, Textarea } from "@chakra-ui/react"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { userContext } from "../pages/userFeed";
 
 export const PinIcon = createIcon({
   displayName: "PinIcon",
@@ -54,9 +55,9 @@ export const CoinIcon = createIcon({
 })
 
 
-export default function IssueFeedCard({userType}) {
+export default function IssueFeedCard() {
 
-    
+    const {userType} = useContext(userContext);
     return (
       <Box
         my="2"
@@ -105,5 +106,4 @@ export default function IssueFeedCard({userType}) {
         </Flex>
       </Box>
     );
-
-}
+};

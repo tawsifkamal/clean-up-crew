@@ -1,32 +1,40 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { createContext, useState } from "react";
 import IssueFeedCard from "../comps/issueFeedCard";
+import TabModal from "../comps/tabModal";
+
+export const userContext = createContext();
 
 const UserFeed = () => {
   const [feed, setFeed] = useState([]);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({
+    userType: 'user'
+  });
 
   return (
-    <Box className="Header" color={"blackAlpha.700"}>
-      <Flex
-        className="HeaderBox"
-        bg="tomato"
-        color={"black"}
-        h="10vh"
-        w="100vw"
-      ></Flex>
-      <Flex
-        className="UserFeed"
-        flexDirection="column"
-        overflowY="scroll"
-        justifyContent="center"
-      >
-        <IssueFeedCard userType={"user"} />
-        <IssueFeedCard userType={"user"} />
-        <IssueFeedCard userType={"user"} />
-        <IssueFeedCard userType={"user"} />
-      </Flex>
-    </Box>
+    <userContext.Provider value={userData.userType}>
+      <Box className="UserFeed" color={"blackAlpha.700"}>
+        <Flex
+          className="HeaderBox"
+          bg="blue.500"
+          color={"black"}
+          h="10vh"
+          w="100vw"
+        ></Flex>
+        <Flex
+          className="UserFeed"
+          flexDirection="column"
+          overflowY="scroll"
+          justifyContent="center"
+        >
+          <IssueFeedCard />
+          <IssueFeedCard />
+          <IssueFeedCard />
+          <IssueFeedCard />
+        </Flex>
+        <TabModal/>
+      </Box>
+    </userContext.Provider>
   );
 };
 
