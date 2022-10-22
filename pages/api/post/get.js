@@ -1,13 +1,13 @@
 import dbConnect from "../../../lib/dbConnect";
-const Issue = require("../../../lib/models/Issue");
+const Post = require("../../../lib/models/Post");
 
 export default async function handler(req, res) {
   try {
     await dbConnect();
 
-    const users = await User.find({});
-    console.log(users);
-    res.status(200).json(users);
+    const posts = await Post.find({});
+    console.log(posts);
+    res.status(200).json(posts);
   } catch (err) {
     console.log(err);
     res.status(500).send(err);
