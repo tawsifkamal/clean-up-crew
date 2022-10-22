@@ -1,5 +1,5 @@
 import dbConnect from "../../../lib/dbConnect";
-const User = require("../../../lib/models/User");
+const Issue = require("../../../lib/models/Issue");
 
 export default async function handler(req, res) {
   try {
