@@ -1,4 +1,4 @@
-const dbConnect = require("../../../lib/dbConnect");
+import dbConnect from "../../../lib/dbConnect";
 const User = require("../../../lib/models/User");
 
 export default async function handler(req, res) {
