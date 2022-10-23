@@ -72,7 +72,9 @@ const { currentLocation } = useUserContext();
       }
 
      console.log(body);
-    //const response = await (await axios.post("api/post/create", body)).data;
+    const response = (await axios.post("api/post/create", body));
+    console.log(response);
+
 
 };
 
