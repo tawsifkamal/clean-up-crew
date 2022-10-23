@@ -1,3 +1,4 @@
+import { Router } from "next/router";
 import dbConnect from "../../../lib/dbConnect";
 const Post = require("../../../lib/models/Post");
 const User = require("../../../lib/models/User");
@@ -9,13 +10,13 @@ export default async function handler(req, res) {
         } else {
             await dbConnect();
             const {userId, postId} = req.body;
-            const user = await User.findById(userId);
             const post = await Post.findById(postId);
             if (post.postState == 'open') {
                 post.contractor = userId;
                 post.postState = 'pending'
             }
             await post.save();
+            
         }
     } catch (err) {
         console.log(err)

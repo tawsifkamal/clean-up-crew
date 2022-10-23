@@ -42,11 +42,12 @@ const UserFeed = ({ posts }) => {
               name={post.name}
               description={post.description}
               totalContributed={post.totalContributed}
-              imageUrl={post.imageUrl}
+              imageUrl={post.postState === 'resolved' ? post.postSolution.solutionPicture : post.imageUrl}
               location={post.location}
               likesCount={post.likesCount}
               postId={post._id}
               isLikedFromProps={isLiked}
+              postState={post.postState}
             />
           );
         })}
@@ -58,6 +59,7 @@ const UserFeed = ({ posts }) => {
 
 export async function getServerSideProps() {
   try {
+    //create api call to get postState and display on card state
     const posts = await Post.find({});
     return {
       props: {

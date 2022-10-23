@@ -15,6 +15,7 @@ import axios from "axios";
 import { Main } from "next/document";
 import { useUserContext } from "../lib/userContext";
 import { useState } from "react";
+import { Router, useRouter } from "next/router";
 import PitchModal from "./PitchModal";
 
 export const CheckIcon = createIcon({
@@ -94,11 +95,13 @@ export default function IssueFeedCard({
   location,
   likesCount,
   isLikedFromProps,
+  postState
 }) {
   const [likesCountState, setLikesCountState] = useState(likesCount);
   const [isLiked, setIsLiked] = useState(isLikedFromProps);
   const { userType, userId } = useUserContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter()
 
   const likePost = async () => {
     const body = {
@@ -112,6 +115,22 @@ export default function IssueFeedCard({
     setLikesCountState((prevState) => prevState + 1);
     setIsLiked(true);
   };
+
+  const handlePost = async (postState) => {
+    if (postState == "open") {
+      const body = {
+        userId : userId,
+        postId : postId
+      }
+      const response = await axios.put("api/post/post-accept", body)
+    } else if (postState == "pending") {
+      router.push({
+        pathname: "image-upload/", 
+        query: {postId: postId}
+      });
+    }
+  }
+
   return (
     <Box
       my="4"
@@ -129,7 +148,7 @@ export default function IssueFeedCard({
       >
         <PinIcon padding="0.2" h="100%" w="8vw" />
         <Flex flexDir="column">
-          {location && <Text>{location.readableAddress}</Text>}
+          {location && <Text fontSize="0.75rem">{location.readableAddress}</Text>}
         </Flex>
       </Flex>
       <Image src={imageUrl} width="100%" h="50%" alt="post picture" />
@@ -153,9 +172,19 @@ export default function IssueFeedCard({
             <PitchModal isOpen={isOpen} onClose={onClose} postId={postId} />
           </Flex>
         ) : (
-          <Button>
-            <StarIcon />
-          </Button>
+            <Button
+              bg={
+                postState == "open"
+                  ? "green.300"
+                  : postState == "pending"
+                  ? "yellow.400"
+                  : "red.400"
+              }
+              onClick={(e) => {handlePost(postState)}}
+            >
+              <StarIcon />
+              <Text>{postState}</Text>
+            </Button>
         )}
         <Spacer />
         <Flex mx="2" alignItems="center" flexDirection="row">
