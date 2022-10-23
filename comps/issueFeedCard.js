@@ -11,6 +11,8 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useUserContext } from "../lib/userContext";
+import { useState } from "react";
+import axios from "axios";
 
 export const PinIcon = createIcon({
   displayName: "PinIcon",
@@ -64,17 +66,30 @@ export const CoinIcon = createIcon({
   ),
 });
 
-const likePost = () => {};
-
 export default function IssueFeedCard({
   name,
   description,
+  postId,
   totalContributed,
   imageUrl,
   location,
   likesCount,
 }) {
-  const { userType } = useUserContext();
+  const [likesCountState, setLikesCountState] = useState(likesCount);
+  const [isLiked, setIsLiked] = useState(false);
+  const { userType, userId } = useUserContext();
+  const likePost = async () => {
+    const body = {
+      userId,
+      postId,
+      likesCount: likesCountState + 1,
+      userLocation: location,
+    };
+    const response = await (await axios.put("api/post/like", body)).data;
+    console.log(response);
+    setLikesCountState((prevState) => prevState + 1);
+    setIsLiked(true);
+  };
   return (
     <Box
       my="4"
@@ -92,7 +107,7 @@ export default function IssueFeedCard({
       >
         <PinIcon padding="0.2" h="100%" w="8vw" />
         <Flex flexDir="column">
-          <Text>{location}</Text>
+          <Text>{location.readableAddress}</Text>
         </Flex>
       </Flex>
       <Image src={imageUrl} width="100%" h="50%" alt="post picture" />
@@ -105,9 +120,9 @@ export default function IssueFeedCard({
       <Flex flexDirection="row" px="2">
         {userType == "user" ? (
           <Flex flexDirection="row" gap={2}>
-            <Button onClick={likePost}>
+            <Button onClick={likePost} disabled={isLiked}>
               <LoveIcon />
-              <Text>{likesCount}</Text>
+              <Text>{likesCountState}</Text>
             </Button>
 
             <Button>
