@@ -64,12 +64,15 @@ export const CoinIcon = createIcon({
   ),
 });
 
+const likePost = () => {};
+
 export default function IssueFeedCard({
   name,
   description,
   totalContributed,
   imageUrl,
   location,
+  likesCount,
 }) {
   const { userType } = useUserContext();
   return (
@@ -102,9 +105,11 @@ export default function IssueFeedCard({
       <Flex flexDirection="row" px="2">
         {userType == "user" ? (
           <Flex flexDirection="row" gap={2}>
-            <Button>
+            <Button onClick={likePost}>
               <LoveIcon />
+              <Text>{likesCount}</Text>
             </Button>
+
             <Button>
               <DollarIcon />
             </Button>

@@ -39,7 +39,7 @@ const Login = () => {
     return null;
   }
 
-  const { setUserType } = useUserContext();
+  const { setUserType, setCurrentLocation, setUserId, setName } = useUserContext();
 
   const handleSubmit = async () => {
     try {
@@ -55,8 +55,10 @@ const Login = () => {
 
       const response = await (await axios.post("api/user/login", body)).data;
       console.log(response);
-      const userType = response.userType;
-      setUserType(userType);
+      setUserType(response.userType);
+      setUserId(response._id);
+      setName(response.name);
+      setCurrentLocation(response.currentLocation);
 
       router.push("/userFeed");
     } catch (err) {

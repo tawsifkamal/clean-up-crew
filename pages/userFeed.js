@@ -34,6 +34,7 @@ const UserFeed = ({ posts }) => {
               totalContributed={post.totalContributed}
               imageUrl={post.imageUrl}
               location={post.location.readableAddress}
+              likesCount={post.likesCount}
             />
           );
         })}
