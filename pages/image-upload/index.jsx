@@ -49,7 +49,7 @@ export default function ImgUpload() {
   const handleSubmit = async () => {
     if (userType === 'user') {
       const body = {
-      name: userInput,
+      name: fileName,
       imageUrl: "https://hackgtstoragebucket.s3.amazonaws.com/" + fileName,
       description:desc,
       currentLocation: currentLocation,
