@@ -39,7 +39,8 @@ const Login = () => {
     return null;
   }
 
-  const { setUserType, setCurrentLocation, setUserId, setName } = useUserContext();
+  const { setUserType, setCurrentLocation, setUserId, setName } =
+    useUserContext();
 
   const handleSubmit = async () => {
     try {
@@ -55,6 +56,15 @@ const Login = () => {
 
       const response = await (await axios.post("api/user/login", body)).data;
       console.log(response);
+
+      localStorage.setItem("userType", response.userType);
+      localStorage.setItem("userId", response._id);
+      localStorage.setItem("userName", response.name);
+      localStorage.setItem(
+        "currentLocation",
+        JSON.stringify(response.currentLocation)
+      );
+
       setUserType(response.userType);
       setUserId(response._id);
       setName(response.name);

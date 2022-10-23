@@ -9,10 +9,12 @@ import {
   Image,
   Heading,
   Textarea,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useUserContext } from "../lib/userContext";
 import { useState } from "react";
 import axios from "axios";
+import PitchModal from "./PitchModal";
 
 export const PinIcon = createIcon({
   displayName: "PinIcon",
@@ -74,10 +76,13 @@ export default function IssueFeedCard({
   imageUrl,
   location,
   likesCount,
+  isLikedFromProps,
 }) {
   const [likesCountState, setLikesCountState] = useState(likesCount);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(isLikedFromProps);
   const { userType, userId } = useUserContext();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const likePost = async () => {
     const body = {
       userId,
@@ -107,7 +112,7 @@ export default function IssueFeedCard({
       >
         <PinIcon padding="0.2" h="100%" w="8vw" />
         <Flex flexDir="column">
-          <Text>{location.readableAddress}</Text>
+          {location && <Text>{location.readableAddress}</Text>}
         </Flex>
       </Flex>
       <Image src={imageUrl} width="100%" h="50%" alt="post picture" />
@@ -125,9 +130,10 @@ export default function IssueFeedCard({
               <Text>{likesCountState}</Text>
             </Button>
 
-            <Button>
+            <Button onClick={onOpen}>
               <DollarIcon />
             </Button>
+            <PitchModal isOpen={isOpen} onClose={onClose} postId={postId} />
           </Flex>
         ) : (
           <Button>
