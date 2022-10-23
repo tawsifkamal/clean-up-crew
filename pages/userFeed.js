@@ -33,8 +33,9 @@ const UserFeed = ({ posts }) => {
               description={post.description}
               totalContributed={post.totalContributed}
               imageUrl={post.imageUrl}
-              location={post.location.readableAddress}
+              location={post.location}
               likesCount={post.likesCount}
+              postId={post._id}
             />
           );
         })}
