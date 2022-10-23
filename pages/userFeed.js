@@ -42,7 +42,7 @@ const UserFeed = ({ posts }) => {
               name={post.name}
               description={post.description}
               totalContributed={post.totalContributed}
-              imageUrl={post.imageUrl}
+              imageUrl={post.postState === 'resolved' ? post.postSolution.solutionPicture : post.imageUrl}
               location={post.location}
               likesCount={post.likesCount}
               postId={post._id}
