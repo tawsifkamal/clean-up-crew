@@ -9,13 +9,13 @@ export default async function handler(req, res) {
         } else {
             await dbConnect();
             const {userId, postId} = req.body;
-            const user = await User.findById(userId);
             const post = await Post.findById(postId);
             if (post.postState == 'open') {
                 post.contractor = userId;
                 post.postState = 'pending'
             }
             await post.save();
+            res.status(200)
         }
     } catch (err) {
         console.log(err)

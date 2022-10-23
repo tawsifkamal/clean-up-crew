@@ -36,6 +36,7 @@ const UserFeed = ({ posts }) => {
               location={post.location}
               likesCount={post.likesCount}
               postId={post._id}
+              postState={post.postState}
             />
           );
         })}
@@ -47,6 +48,7 @@ const UserFeed = ({ posts }) => {
 
 export async function getServerSideProps() {
   try {
+    //create api call to get postState and display on card state
     const posts = await Post.find({});
     return {
       props: {

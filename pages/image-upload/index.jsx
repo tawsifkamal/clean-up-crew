@@ -3,6 +3,7 @@ import axios from "axios";
 const { currentLocation } = useUserContext();
 import { AspectRatio, Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import TabModal, { CameraIcon } from "../../comps/tabModal";
+import { useUserContext } from "../../lib/userContext";
 
 const BUCKET_URL = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.amazonaws.com/`;
 
@@ -10,9 +11,11 @@ export default function ImgUpload() {
   const [file, setFile] = useState();
   const [uploadingStatus, setUploadingStatus] = useState();
   const [uploadedFile, setUploadedFile] = useState();
-  const [fileName, setFileName] = useState("")
-  const [desc, setDesc] = useState("")
+  const [fileName, setFileName] = useState("");
+  const [desc, setDesc] = useState("");
 
+  const {userType} = useUserContext();
+  const router = useRouter();
 
   const selectFile = async (e) => {
     setFile(e.target.files[0]);
@@ -38,22 +41,29 @@ export default function ImgUpload() {
     } catch (e) {
       console.log(e);
     }
-
     setUploadedFile(BUCKET_URL + file.name);
     setFile(null);
   };
 
   const handleSubmit = async () => {
-
+    if (userType === 'user') {
       const body = {
-        name: userInput,
-        imageUrl: "https://hackgtstoragebucket.s3.amazonaws.com/" + fileName,
-        description:desc,
-        currentLocation: currentLocation,
-      }
-
+      name: userInput,
+      imageUrl: "https://hackgtstoragebucket.s3.amazonaws.com/" + fileName,
+      description:desc,
+      currentLocation: currentLocation,
+    }
       console.log("frontend"+body);
-    const response = await (await axios.post("api/post/create", body)).data;
+      const response = await (await axios.post("api/post/create", body)).data;
+    } else if (userType === 'contractor') {
+      const {postId} = router.query
+      const body = {
+        postId: postId,
+        imageURL: "https://hackgtstoragebucket.s3.amazonaws.com/" + fileName,
+        description: desc
+      };
+      const response = await axios.put("api/post/post-resolve", body)
+    }
 
 };
 

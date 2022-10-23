@@ -14,7 +14,7 @@ import axios from "axios";
 import { Main } from "next/document";
 import { useUserContext } from "../lib/userContext";
 import { useState } from "react";
-import axios from "axios";
+import { Router, useRouter } from "next/router";
 
 export const CheckIcon = createIcon({
   displayName: "CheckIcon",
@@ -92,10 +92,13 @@ export default function IssueFeedCard({
   imageUrl,
   location,
   likesCount,
+  postState
 }) {
   const [likesCountState, setLikesCountState] = useState(likesCount);
   const [isLiked, setIsLiked] = useState(false);
   const { userType, userId } = useUserContext();
+  const router = useRouter()
+
   const likePost = async () => {
     const body = {
       userId,
@@ -108,6 +111,27 @@ export default function IssueFeedCard({
     setLikesCountState((prevState) => prevState + 1);
     setIsLiked(true);
   };
+
+  const acceptPost = async () => {
+    const body = {
+      userId : userId,
+      postId : postId
+    }
+    const response = await axios.put("api/post/post-accept", body)
+  }
+
+  const handlePost = async (postState) => {
+    if (postState == 'open') {
+      const body = {
+        userId : userId,
+        postId : postId
+      }
+      const response = await axios.put("api/post/post-resolve", body)
+    } else if (postState == 'pending') {
+      router.push("image-upload/[" + postId + "]")
+    }
+  }
+
   return (
     <Box
       my="4"
@@ -142,15 +166,24 @@ export default function IssueFeedCard({
               <LoveIcon />
               <Text>{likesCountState}</Text>
             </Button>
-
             <Button>
               <DollarIcon />
             </Button>
           </Flex>
         ) : (
-          <Button>
-            <StarIcon />
-          </Button>
+            <Button
+              bg={
+                postState == "open"
+                  ? "green.300"
+                  : postState == "pending"
+                  ? "yellow.400"
+                  : "red.400"
+              }
+              onClick={acceptPost}
+            >
+              <StarIcon />
+              <Text>{postState}</Text>
+            </Button>
         )}
         <Spacer />
         <Flex mx="2" alignItems="center" flexDirection="row">

@@ -1,5 +1,4 @@
 import { Flex, Text } from "@chakra-ui/react";
-import IssueContractorCard from "../comps/issueContractorCard";
 import Post from "../lib/models/Post";
 import IssueFeedCard from "../comps/issueFeedCard";
 import TabModal from "../comps/tabModal";
