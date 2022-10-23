@@ -2,6 +2,7 @@ import { Button, createIcon, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useUserContext } from "../lib/userContext";
+import { CoinIcon } from "./issueFeedCard";
 
 export const CameraIcon = createIcon({
   displayName: "CameraIcon",
@@ -66,7 +67,8 @@ export default function TabModal() {
         borderRadius="0 25px 25px 0"
         onClick={handleCamera}
       >
-        <CameraIcon />
+        {userType != 'user' ? <CoinIcon/> : <CameraIcon />}
+        
       </Button>
     </Flex>
   );

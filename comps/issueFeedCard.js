@@ -10,9 +10,27 @@ import {
   Heading,
   Textarea,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { Main } from "next/document";
 import { useUserContext } from "../lib/userContext";
 import { useState } from "react";
-import axios from "axios";
+
+
+export const CheckIcon = createIcon({
+  displayName: "CheckIcon",
+  viewBox: "0 0 32 32",
+  path: (
+    <path d="M5 16.577l2.194-2.195 5.486 5.484L24.804 7.743 27 9.937l-14.32 14.32z" />
+  ),
+});
+
+export const ArrowRIcon = createIcon({
+  displayName: "ArrowRIcon",
+  viewBox: "0 0 32 32",
+  path: (
+    <path d="M5.975 17.504l14.287.001-6.367 6.366L16.021 26l10.004-10.003L16.029 6l-2.128 2.129 6.367 6.366H5.977z" />
+  ),
+});
 
 export const PinIcon = createIcon({
   displayName: "PinIcon",
@@ -102,12 +120,12 @@ export default function IssueFeedCard({
       <Flex
         flexDirection="row"
         alignItems="center"
-        justifyContent="left"
+        justifyContent="flex-start"
         h="7.5%"
       >
         <PinIcon padding="0.2" h="100%" w="8vw" />
         <Flex flexDir="column">
-          <Text>{location.readableAddress}</Text>
+          <Text fontSize="0.75rem">{location.readableAddress}</Text>
         </Flex>
       </Flex>
       <Image src={imageUrl} width="100%" h="50%" alt="post picture" />
