@@ -95,11 +95,12 @@ const validateLocation = () =>{
 
      console.log(body);
      console.log(JSON.stringify(body));
+     const response = (await axios.post("api/post/create", body));
+    console.log(response);
       }
       
 
-   //const response = (await axios.post("api/post/create", body));
-    //console.log(response);
+   
 };
 
 
