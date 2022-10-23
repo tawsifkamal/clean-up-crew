@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+const { currentLocation } = useUserContext();
 import { AspectRatio, Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import TabModal, { CameraIcon } from "../../comps/tabModal";
 
@@ -9,6 +10,9 @@ export default function ImgUpload() {
   const [file, setFile] = useState();
   const [uploadingStatus, setUploadingStatus] = useState();
   const [uploadedFile, setUploadedFile] = useState();
+  const [fileName, setFileName] = useState("")
+  const [desc, setDesc] = useState("")
+
 
   const selectFile = async (e) => {
     setFile(e.target.files[0]);
@@ -39,6 +43,20 @@ export default function ImgUpload() {
     setFile(null);
   };
 
+  const handleSubmit = async () => {
+
+      const body = {
+        name: userInput,
+        imageUrl: "https://hackgtstoragebucket.s3.amazonaws.com/" + fileName,
+        description:desc,
+        currentLocation: currentLocation,
+      }
+
+      console.log("frontend"+body);
+    const response = await (await axios.post("api/post/create", body)).data;
+
+};
+
   return (
     <div className="container flex items-center p-4 mx-auto min-h-screen justify-center">
       <Flex
@@ -59,14 +77,17 @@ export default function ImgUpload() {
               </Box>
             )}
           </AspectRatio>
+              <Input type='text' value={fileName} onChange={(e) => {setFileName(e.target.value)}} />
             <Input type="file" border='none' onChange={(e) => {selectFile(e)}} />
             <p>Please select a file to upload</p>
           <Textarea
             placeholder="Describe the issue"
             border="1px solid gray"
             my="2"
+             onChange={(e) => {setDesc(e.target.value)}}
+            
           />
-          <Button> Submit </Button>
+          <Button onClick={() => {handleSubmit()}}> Submit </Button>
         </Flex>
         <TabModal />
       </Flex>

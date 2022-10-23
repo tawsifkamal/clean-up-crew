@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         post.postState = "open"
         post.postSolution = {}
         post.score = 0;
-        
+        console.log("backend"+body);
         const createdPost = await Post.create(post)
         res.status(201).json(createdPost);
     } catch (e) {
