@@ -15,10 +15,17 @@ export default function ImgUpload() {
   const [fileName, setFileName] = useState("")
   const [desc, setDesc] = useState("")
   const [title, setTitle] = useState("");
-  console.log()
+
 
 const { currentLocation } = useUserContext();
+  console.log(currentLocation);
   const selectFile = async (e) => {
+      try{
+        const tmp =currentLocation.readableAddress;
+        const tmp2 = tmp.concat("brek")
+      }catch(e){
+        console.log("tawsif is gonna beat ur cheeks");
+      }
     console.log(e.target.files);
     setFile(e.target.files[0]);
 
@@ -30,6 +37,12 @@ const { currentLocation } = useUserContext();
   };
 
   const uploadFile = async () => {
+      try{
+        const tmp =currentLocation.readableAddress;
+        const tmp2 = tmp.concat("brek")
+      }catch(e){
+        console.log("tawsif is gonna beat ur cheeks");
+      }
     setUploadingStatus("Uploading the file to AWS S3");
     console.log(BUCKET_URL);
     console.log("fghjk")
@@ -59,6 +72,15 @@ const { currentLocation } = useUserContext();
   };
 
   const handleSubmit = async () => {
+      try{
+        const tmp =currentLocation.readableAddress;
+        const tmp2 = tmp.concat("brek")
+      }catch(e){
+        console.log("tawsif is gonna beat ur cheeks");
+      }
+
+
+
       const res = await (await uploadFile());
       // console.log("ghggh");
       // console.log(res);
@@ -72,7 +94,7 @@ const { currentLocation } = useUserContext();
       }
 
      console.log(body);
-    const response = (await axios.post("api/post/create", body));
+   const response = (await axios.post("api/post/create", body));
     console.log(response);
 
 
