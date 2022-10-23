@@ -44,7 +44,7 @@ export default function MyIssues({posts}) {
                 description={post.description}
                 totalContributed={post.totalContributed}
                 imageUrl={post.imageUrl}
-                location={post.location.readableAddress}
+                location={post.location?.readableAddress}
                 postState={post.postState}
                 postId={post._id}
               />

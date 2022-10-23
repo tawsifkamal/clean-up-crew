@@ -3,7 +3,6 @@ import { useUserContext } from "../../lib/userContext";
 import axios from "axios";
 import { AspectRatio, Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import TabModal, { CameraIcon } from "../../comps/tabModal";
-import { useUserContext } from "../../lib/userContext";
 import { useRouter } from "next/router";
 
 
@@ -81,50 +80,38 @@ const validateLocation = () =>{
 
 
   const handleSubmit = async () => {
-      if(validateLocation()){
-      const res = await (await uploadFile());
-      const loc  = {
-        readableAddress: currentLocation.readableAddress,
-        longitude:  currentLocation.longitude,
-        latitude: currentLocation.latitude
+    if (userType == 'user') {
+      if (validateLocation()) {
+        const res = await (await uploadFile());
+        const loc  = {
+          readableAddress: currentLocation.readableAddress,
+          longitude:  currentLocation.longitude,
+          latitude: currentLocation.latitude
+        }
+        //console.log(Object.keys(loc).length)
+        const body = {
+          name: title,
+          imageUrl: "https://hackgtstoragebucket.s3.amazonaws.com/" + fileName,
+          description:desc,
+          location: loc,
+        }
+      console.log(body);
+      console.log(JSON.stringify(body));
+      const response = (await axios.post("api/post/create", body));
+      console.log(response);
       }
-      //console.log(Object.keys(loc).length)
-      const body = {
-        name: title,
-        imageUrl: "https://hackgtstoragebucket.s3.amazonaws.com/" + fileName,
-        description:desc,
-        location: loc,
-      }
-
-     console.log(body);
-     console.log(JSON.stringify(body));
-     const response = (await axios.post("api/post/create", body));
-    console.log(response);
-      }
-      
-};
-  const handleSubmit = async () => {
-    if (userType === 'user') {
-      const body = {
-      name: fileName,
-      imageUrl: "https://hackgtstoragebucket.s3.amazonaws.com/" + fileName,
-      description:desc,
-      currentLocation: currentLocation,
-    }
-      console.log("frontend"+body);
-      const response = await (await axios.post("api/post/create", body)).data;
-    } else if (userType === 'contractor') {
-      const {postId} = router.query
+    } else if (userType == 'contractor') {
+      const { postId } = router.query;
       const body = {
         postId: postId,
         imageURL: "https://hackgtstoragebucket.s3.amazonaws.com/" + fileName,
-        description: desc
+        description: desc,
       };
-      const response = await axios.put("api/post/post-resolve", body)
+      const response = await axios.put("api/post/post-resolve", body);
     }
-    router.push("/userFeed")
-
-
+    router.push("/userFeed") 
+  };
+  
 
 
   return (

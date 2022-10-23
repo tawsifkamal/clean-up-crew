@@ -1,3 +1,4 @@
+import { Router } from "next/router";
 import dbConnect from "../../../lib/dbConnect";
 const Post = require("../../../lib/models/Post");
 const User = require("../../../lib/models/User");
@@ -15,7 +16,7 @@ export default async function handler(req, res) {
                 post.postState = 'pending'
             }
             await post.save();
-            res.status(200)
+            
         }
     } catch (err) {
         console.log(err)

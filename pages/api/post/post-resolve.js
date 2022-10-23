@@ -15,7 +15,6 @@ export default async function handler(req, res) {
       post.postState = 'resolved';
     }
     await post.save();
-    res.status(200);
   } catch (err) {
     console.log(err);
   }
