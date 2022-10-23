@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     // provided
     post.name = req.body.name;
     post.description = req.body.description;
-    post.fileUrl = req.body.fileUrl;
+    post.imageUrl = req.body.imageUrl;
     post.location = req.body.location;
     const createdPost = await Post.create(post);
     res.status(201).json(createdPost);
