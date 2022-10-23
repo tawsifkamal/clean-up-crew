@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-const { currentLocation } = useUserContext();
+import { useUserContext } from "../../lib/userContext";
+
 import { AspectRatio, Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import TabModal, { CameraIcon } from "../../comps/tabModal";
 
@@ -8,26 +9,38 @@ const BUCKET_URL = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.amazonaws.
 
 export default function ImgUpload() {
   const [file, setFile] = useState();
+  const [fileType, setFileType] = useState("");
   const [uploadingStatus, setUploadingStatus] = useState();
   const [uploadedFile, setUploadedFile] = useState();
   const [fileName, setFileName] = useState("")
   const [desc, setDesc] = useState("")
+  const [title, setTitle] = useState("");
+  console.log()
 
-
+const { currentLocation } = useUserContext();
   const selectFile = async (e) => {
+    console.log(e.target.files);
     setFile(e.target.files[0]);
-    await uploadFile()
+
+    setFileName(e.target.files[0].name);
+    setFileType(e.target.files[0].type);
+
+    
+    // await uploadFile()
   };
 
   const uploadFile = async () => {
     setUploadingStatus("Uploading the file to AWS S3");
     console.log(BUCKET_URL);
+    console.log("fghjk")
+    console.log(fileName, fileType);
     let { data } = await axios.post("/api/s3/uploadFile", {
-      name: file.name,
-      type: file.type,
+      name: fileName,
+      type: fileType
     });
-
+    console.log("1st breakpoint");
     const url = data.url;
+    console.log(url);
     try {
       let { newData } = await axios.put(url, file, {
         headers: {
@@ -35,25 +48,31 @@ export default function ImgUpload() {
           "Access-Control-Allow-Origin": "*",
         },
       });
+       console.log("2nd breakpoint");
+        console.log(newData);
     } catch (e) {
       console.log(e);
     }
 
-    setUploadedFile(BUCKET_URL + file.name);
+    setUploadedFile(BUCKET_URL + fileName);
     setFile(null);
   };
 
   const handleSubmit = async () => {
-
+      const res = await (await uploadFile());
+      // console.log("ghggh");
+      // console.log(res);
+      // console.log(fileName, fileType);
+      
       const body = {
-        name: userInput,
+        name: title,
         imageUrl: "https://hackgtstoragebucket.s3.amazonaws.com/" + fileName,
         description:desc,
         currentLocation: currentLocation,
       }
 
-      console.log("frontend"+body);
-    const response = await (await axios.post("api/post/create", body)).data;
+     console.log(body);
+    //const response = await (await axios.post("api/post/create", body)).data;
 
 };
 
@@ -77,8 +96,9 @@ export default function ImgUpload() {
               </Box>
             )}
           </AspectRatio>
-              <Input type='text' value={fileName} onChange={(e) => {setFileName(e.target.value)}} />
-            <Input type="file" border='none' onChange={(e) => {selectFile(e)}} />
+              <Input type='text' value={title} onChange={(e) => {setTitle(e.target.value);  }} />
+              
+            <Input type="file" border='none' onChange={(e) => {selectFile(e); console.log(e.target.value)}} />
             <p>Please select a file to upload</p>
           <Textarea
             placeholder="Describe the issue"
