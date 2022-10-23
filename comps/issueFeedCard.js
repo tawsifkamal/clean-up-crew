@@ -120,9 +120,11 @@ export default function IssueFeedCard({
       }
       const response = await axios.put("api/post/post-accept", body)
     } else if (postState == "pending") {
-      router.push("image-upload/postId?" + postId);
+      router.push({
+        pathname: "image-upload/", 
+        query: {postId: postId}
+      });
     }
-    //router.reload()
   }
 
   return (
@@ -142,7 +144,7 @@ export default function IssueFeedCard({
       >
         <PinIcon padding="0.2" h="100%" w="8vw" />
         <Flex flexDir="column">
-          <Text fontSize="0.75rem">{location.readableAddress}</Text>
+          <Text fontSize="0.75rem">{location?.readableAddress}</Text>
         </Flex>
       </Flex>
       <Image src={imageUrl} width="100%" h="50%" alt="post picture" />

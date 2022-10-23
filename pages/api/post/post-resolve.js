@@ -9,6 +9,7 @@ export default async function handler(req, res) {
     const post = await Post.findById(postId);
     if (post.postState == 'pending') {
       post.imageURL = imageURL
+      post.description = description
       post.postSolution.solutionPicture = imageURL
       post.postSolution.description = description
       post.postState = 'resolved';

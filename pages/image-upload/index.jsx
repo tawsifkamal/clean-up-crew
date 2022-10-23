@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-const { currentLocation } = useUserContext();
 import { AspectRatio, Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import TabModal, { CameraIcon } from "../../comps/tabModal";
 import { useUserContext } from "../../lib/userContext";
+import { useRouter } from "next/router";
 
 const BUCKET_URL = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.amazonaws.com/`;
 
@@ -13,9 +13,10 @@ export default function ImgUpload() {
   const [uploadedFile, setUploadedFile] = useState();
   const [fileName, setFileName] = useState("");
   const [desc, setDesc] = useState("");
-
-  const {userType} = useUserContext();
+  const { currentLocation, userType } = useUserContext();
   const router = useRouter();
+
+  
 
   const selectFile = async (e) => {
     setFile(e.target.files[0]);
@@ -64,7 +65,7 @@ export default function ImgUpload() {
       };
       const response = await axios.put("api/post/post-resolve", body)
     }
-
+    router.push("/userFeed")
 };
 
   return (
@@ -87,7 +88,7 @@ export default function ImgUpload() {
               </Box>
             )}
           </AspectRatio>
-              <Input type='text' value={fileName} onChange={(e) => {setFileName(e.target.value)}} />
+                {userType === 'user' ? <Input type='text' placeholder="Add a Title" value={fileName} onChange={(e) => {setFileName(e.target.value)}} />: <></>}
             <Input type="file" border='none' onChange={(e) => {selectFile(e)}} />
             <p>Please select a file to upload</p>
           <Textarea
