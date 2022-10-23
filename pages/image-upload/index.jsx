@@ -168,6 +168,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import TabModal, { CameraIcon } from "../../comps/tabModal";
+import Header from "../../comps/header";
 
 
 const BUCKET_URL = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.amazonaws.com/`;
@@ -241,8 +242,6 @@ const validateLocation = () =>{
   return false;
 }
 
-
-
   const handleSubmit = async () => {
       if(validateLocation()){
       const res = await (await uploadFile());
@@ -271,19 +270,9 @@ const validateLocation = () =>{
       
 };
 
-
-
-
-
   return (
     <div className="container flex items-center p-4 mx-auto min-h-screen justify-center">
-      <Flex
-        className="HeaderBox"
-        bg="green.500"
-        color={"black"}
-        h="10vh"
-        w="100vw"
-      ></Flex>
+      <Header />
       <Flex flexDirection="row" justifyContent="center">
         <Flex my="4" flexDirection="column">
           <AspectRatio ratio={1} maxH="30vh" my="2">
