@@ -4,6 +4,7 @@ import IssueFeedCard from "../comps/issueFeedCard";
 import TabModal from "../comps/tabModal";
 import { useState } from "react";
 import { useUserContext } from "../lib/userContext";
+import Header from "../comps/header";
 
 export async function getServerSideProps() {
   try {
@@ -23,14 +24,8 @@ export default function MyIssues({posts}) {
     const userType = useUserContext()
 
     return (
-      <Flex className="MyIssues" flexDirection="column">
-        <Flex
-          className="HeaderBox"
-          bg="blue.500"
-          color={"black"}
-          h="10vh"
-          w="100vw"
-        ></Flex>
+      <Flex className="MyIssues" flexDirection="column" bg="gray.300">
+        <Header />
         <Text textAlign="center" fontSize="50px">
           My Issues
         </Text>

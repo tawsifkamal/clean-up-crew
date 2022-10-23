@@ -137,9 +137,11 @@ export default function IssueFeedCard({
       mx="3"
       h="lg"
       w="xs"
-      boxShadow="2px 2px 4px gray"
+      boxShadow="5px 5px 10px gray"
       borderRadius="25px"
+      bg="white"
     >
+      <Image src={imageUrl} width="100%" h="60%" alt="post picture" borderRadius="25px 25px 0 0" />
       <Flex
         flexDirection="row"
         alignItems="center"
@@ -151,11 +153,11 @@ export default function IssueFeedCard({
           {location && <Text fontSize="0.75rem">{location.readableAddress}</Text>}
         </Flex>
       </Flex>
-      <Image src={imageUrl} width="100%" h="50%" alt="post picture" />
+
       <Heading fontSize="xl" pl={4} pt={2}>
         {name}
       </Heading>
-      <Text w="100%" h="25%" pl={4}>
+      <Text w="100%" h="15%" pl={4}>
         {description}
       </Text>
       <Flex flexDirection="row" px="2">
