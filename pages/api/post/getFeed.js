@@ -8,11 +8,11 @@ export default async function handler(req, res) {
     await dbConnect();
     const user = await User.findById(req.query.userId);
 
-    const posts = await Post.find({});
+    const posts = await Post.find({}).lean();
     const newPosts = posts.map((post) => {
         const newPost = {...post}
         newPost.liked = post.likesArray.some(like => like.userId === user.id);
-        newPost.score = post.score + RelevanceAlgo(user.location, post.location);
+        newPost.score = post.score + RelevanceAlgo(user.currentLocation, post.location);
         return newPost;
     });
     res.status(200).json(newPosts);
