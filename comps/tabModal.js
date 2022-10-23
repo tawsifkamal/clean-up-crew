@@ -36,7 +36,7 @@ export default function TabModal() {
 
     function handleCamera() {
         if (userType == 'user') {
-            router.push("/userFeed")
+            router.push("/image-upload")
         } else {
             router.push("/myissues")
         }

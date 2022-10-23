@@ -1,15 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
+import { AspectRatio, Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
+import TabModal, { CameraIcon } from "../../comps/tabModal";
 
 const BUCKET_URL = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.amazonaws.com/`;
 
-export default function Home() {
+export default function ImgUpload() {
   const [file, setFile] = useState();
   const [uploadingStatus, setUploadingStatus] = useState();
   const [uploadedFile, setUploadedFile] = useState();
 
-  const selectFile = (e) => {
+  const selectFile = async (e) => {
     setFile(e.target.files[0]);
+    await uploadFile()
   };
 
   const uploadFile = async () => {
@@ -19,8 +22,6 @@ export default function Home() {
       name: file.name,
       type: file.type,
     });
-
-    // console.log(data);
 
     const url = data.url;
     try {
@@ -40,23 +41,35 @@ export default function Home() {
 
   return (
     <div className="container flex items-center p-4 mx-auto min-h-screen justify-center">
-      <main>
-        <p>Please select a file to upload</p>
-        <input type="file" onChange={(e) => selectFile(e)} />
-        {file && (
-          <>
-            <p>Selected file: {file.name}</p>
-            <button
-              onClick={uploadFile}
-              className=" bg-purple-500 text-white p-2 rounded-sm shadow-md hover:bg-purple-700 transition-all"
-            >
-              Upload a File!
-            </button>
-          </>
-        )}
-        {uploadingStatus && <p>{uploadingStatus}</p>}
-        {uploadedFile && <img src={uploadedFile} />}
-      </main>
+      <Flex
+        className="HeaderBox"
+        bg="green.500"
+        color={"black"}
+        h="10vh"
+        w="100vw"
+      ></Flex>
+      <Flex flexDirection="row" justifyContent="center">
+        <Flex my="4" flexDirection="column">
+          <AspectRatio ratio={1} maxH="30vh" my="2">
+            {uploadedFile ? (
+              <img src={uploadedFile} />
+              ) : (
+              <Box bg="gray.400">
+                <CameraIcon h="80%" w="80%" />
+              </Box>
+            )}
+          </AspectRatio>
+            <Input type="file" border='none' onChange={(e) => {selectFile(e)}} />
+            <p>Please select a file to upload</p>
+          <Textarea
+            placeholder="Describe the issue"
+            border="1px solid gray"
+            my="2"
+          />
+          <Button> Submit </Button>
+        </Flex>
+        <TabModal />
+      </Flex>
     </div>
   );
 }

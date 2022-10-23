@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import { AspectRatio, Box, Button, Flex, Textarea } from "@chakra-ui/react";
+import { CameraIcon } from "./tabModal";
 
 const BUCKET_URL = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.amazonaws.com/`;
 
@@ -7,12 +9,13 @@ export default function ImgUpload() {
   const [file, setFile] = useState();
   const [uploadingStatus, setUploadingStatus] = useState();
   const [uploadedFile, setUploadedFile] = useState();
- 
+
   const selectFile = (e) => {
     setFile(e.target.files[0]);
   };
 
   const uploadFile = async () => {
+    console.log("ghj");
     setUploadingStatus("Uploading the file to AWS S3");
     console.log(BUCKET_URL);
     let { data } = await axios.post("/api/s3/uploadFile", {
@@ -40,8 +43,29 @@ export default function ImgUpload() {
 
   return (
     <div className="container flex items-center p-4 mx-auto min-h-screen justify-center">
-      <main>
+      
+      <Flex
+        className="HeaderBox"
+        bg="green.500"
+        color={"black"}
+        h="10vh"
+        w="100vw"
+      ></Flex>
+      <Flex flexDirection="row" justifyContent="center">
+        <Flex my="4" flexDirection="column">
+          <AspectRatio ratio={1} maxH="30vh" my="2">
+            {uploadedFile ? (
+              <img src={uploadedFile} />
+            ) : (
+              <Box bg="gray.400">
+                <CameraIcon h="80%" w="80%" />
+              </Box>
+            )}
+          </AspectRatio>
+          <Button> My Button </Button>
+          <main>
         <p>Please select a file to upload</p>
+        
         <input type="file" onChange={(e) => selectFile(e)} />
         {file && (
           <>
@@ -57,6 +81,15 @@ export default function ImgUpload() {
         {uploadingStatus && <p>{uploadingStatus}</p>}
         {uploadedFile && <img src={uploadedFile} />}
       </main>
+          <Textarea
+            placeholder="Describe the issue"
+            border="1px solid gray"
+            my="2"
+          />
+        </Flex>
+      </Flex>
+
+      {uploadingStatus && <p>{uploadingStatus}</p>}
     </div>
   );
 }
