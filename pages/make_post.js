@@ -1,17 +1,20 @@
 import {Heading} from '@chakra-ui/react';
-import img_upload from '../lib/img_upload';
+import ImgUpload from "../lib/img_upload";
 
 export default function make_post() {
     //AIzaSyCszToETDnREz4UtmQyLIFR1NK61GMMOew
   return (
     <div>
-        <input >Title: </input>
-        <img_upload/>
-        <input>description: </input>
-     
-
-
-
+      <Flex
+        className="HeaderBox"
+        bg="tomato"
+        color={"black"}
+        h="10vh"
+        w="100vw"
+      ></Flex>
+      <input />
+      <ImgUpload />
+      <input />
     </div>
-  )
+  );
 }
