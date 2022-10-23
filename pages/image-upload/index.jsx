@@ -5,6 +5,7 @@ import { useUserContext } from "../../lib/userContext";
 import { AspectRatio, Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import TabModal, { CameraIcon } from "../../comps/tabModal";
 
+
 const BUCKET_URL = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.s3.amazonaws.com/`;
 
 export default function ImgUpload() {
@@ -15,34 +16,19 @@ export default function ImgUpload() {
   const [fileName, setFileName] = useState("")
   const [desc, setDesc] = useState("")
   const [title, setTitle] = useState("");
+  const [valid,  setValid] = useState(false);
 
 
 const { currentLocation } = useUserContext();
   console.log(currentLocation);
   const selectFile = async (e) => {
-      try{
-        const tmp =currentLocation.readableAddress;
-        const tmp2 = tmp.concat("brek")
-      }catch(e){
-        console.log("tawsif is gonna beat ur cheeks");
-      }
-    console.log(e.target.files);
     setFile(e.target.files[0]);
-
     setFileName(e.target.files[0].name);
     setFileType(e.target.files[0].type);
 
-    
-    // await uploadFile()
   };
 
   const uploadFile = async () => {
-      try{
-        const tmp =currentLocation.readableAddress;
-        const tmp2 = tmp.concat("brek")
-      }catch(e){
-        console.log("tawsif is gonna beat ur cheeks");
-      }
     setUploadingStatus("Uploading the file to AWS S3");
     console.log(BUCKET_URL);
     console.log("fghjk")
@@ -71,34 +57,54 @@ const { currentLocation } = useUserContext();
     setFile(null);
   };
 
+const validateLocation = () =>{
+  try{
+    if(currentLocation.readableAddress != undefined && 
+      currentLocation.latitude != undefined  &&
+      currentLocation.longitude != undefined
+      ){console.log("true");
+        return true;
+        
+    }
+  }
+  catch(e){
+    console.log("false");
+    console.log(e)
+    return false;
+  }
+  console.log("false");
+  return false;
+}
+
+
   const handleSubmit = async () => {
-      try{
-        const tmp =currentLocation.readableAddress;
-        const tmp2 = tmp.concat("brek")
-      }catch(e){
-        console.log("tawsif is gonna beat ur cheeks");
-      }
-
-
-
+      if(validateLocation){
       const res = await (await uploadFile());
-      // console.log("ghggh");
-      // console.log(res);
-      // console.log(fileName, fileType);
-      
+      const loc  = {
+        readableAddress: currentLocation.readableAddress,
+        longitude:  currentLocation.longitude,
+        latitude: currentLocation.latitude
+      }
+      //console.log(Object.keys(loc).length)
       const body = {
         name: title,
         imageUrl: "https://hackgtstoragebucket.s3.amazonaws.com/" + fileName,
         description:desc,
-        currentLocation: currentLocation,
+        location: loc,
       }
 
      console.log(body);
-   const response = (await axios.post("api/post/create", body));
-    console.log(response);
+     console.log(JSON.stringify(body));
+      }
+      
 
-
+   //const response = (await axios.post("api/post/create", body));
+    //console.log(response);
 };
+
+
+
+
 
   return (
     <div className="container flex items-center p-4 mx-auto min-h-screen justify-center">
@@ -121,6 +127,7 @@ const { currentLocation } = useUserContext();
             )}
           </AspectRatio>
               <Input type='text' value={title} onChange={(e) => {setTitle(e.target.value);  }} />
+            
               
             <Input type="file" border='none' onChange={(e) => {selectFile(e); console.log(e.target.value)}} />
             <p>Please select a file to upload</p>
@@ -132,6 +139,7 @@ const { currentLocation } = useUserContext();
             
           />
           <Button onClick={() => {handleSubmit()}}> Submit </Button>
+           <Button onClick={() => {debugSubmit()}}> Submit </Button>
         </Flex>
         <TabModal />
       </Flex>
