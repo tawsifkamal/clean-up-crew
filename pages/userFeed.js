@@ -7,7 +7,8 @@ import TabModal from "../comps/tabModal";
 
 const UserFeed = ({ posts }) => {
   const [feed, setFeed] = useState(posts);
-  const { userType } = useUserContext();
+  const { userType, userId } = useUserContext();
+
   return (
     <Box className="Header" color={"blackAlpha.700"}>
       <Flex
@@ -25,6 +26,15 @@ const UserFeed = ({ posts }) => {
         alignItems="center"
       >
         {feed.map((post, index) => {
+          const isLiked = false;
+          if (
+            post.likesArray.find((userObject) => userObject.userId === userId)
+          ) {
+            isLiked = true;
+          }
+
+
+
           return (
             <IssueFeedCard
               key={index}
@@ -36,6 +46,7 @@ const UserFeed = ({ posts }) => {
               location={post.location}
               likesCount={post.likesCount}
               postId={post._id}
+              isLikedFromProps={isLiked}
             />
           );
         })}
