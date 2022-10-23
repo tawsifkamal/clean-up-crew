@@ -27,10 +27,6 @@ export default function TabModal() {
   const router = useRouter();
   const { userType } = useUserContext();
 
-  useEffect(() => {
-    console.log(userType);
-  }, []);
-
   function handleHome() {
     router.push("/userFeed");
   }
