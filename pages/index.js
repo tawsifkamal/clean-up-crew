@@ -10,31 +10,55 @@ import {
   RadioGroup,
   Stack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useUserContext } from "../lib/userContext";
+import useGeoLocation from "../lib/hooks/useGeoLocation";
+import getAddress from "../lib/getReadableAddress";
 
 const Login = () => {
   const [userInput, setUserInput] = useState("");
   const [radioInput, setRadioInput] = useState("contractor");
+  const [readableAddress, setReadableAddress] = useState("");
   const router = useRouter();
+  const coords = useGeoLocation();
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (coords) {
+      getAddress(setReadableAddress, coords);
+    }
+  }, [coords]);
+
+  if (!hasMounted) {
+    return null;
+  }
+
+  const { setUserType } = useUserContext();
 
   const handleSubmit = async () => {
     try {
       const body = {
         name: userInput,
         userType: radioInput,
+        currentLocation: {
+          longitude: coords.longitude,
+          latitude: coords.latitude,
+          readableAddress: readableAddress,
+        },
       };
 
       const response = await (await axios.post("api/user/login", body)).data;
       console.log(response);
       const userType = response.userType;
+      setUserType(userType);
 
-      if (userType === "contractor") {
-        router.push("/contractor");
-      } else {
-        router.push("/userFeed");
-      }
+      router.push("/userFeed");
     } catch (err) {
       console.log(err);
     }
@@ -43,7 +67,8 @@ const Login = () => {
   const handleChange = (e) => {
     setUserInput(e.target.value);
   };
-  return (
+
+  return readableAddress ? (
     <Flex justifyContent="center" alignItems="center" h="100vh">
       <Flex
         flexDirection="column"
@@ -72,6 +97,8 @@ const Login = () => {
         </RadioGroup>
       </Flex>
     </Flex>
+  ) : (
+    <Heading>Loading</Heading>
   );
 };
 

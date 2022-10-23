@@ -1,7 +1,7 @@
 import { Button, createIcon, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
-import { userContext } from "../pages/userFeed";
+import { useEffect } from "react";
+import { useUserContext } from "../lib/userContext";
 
 export const CameraIcon = createIcon({
   displayName: "CameraIcon",
@@ -23,35 +23,50 @@ export const HomeIcon = createIcon({
 });
 
 export default function TabModal() {
-    const router = useRouter();
-    const userType = useContext(userContext);
+  const router = useRouter();
+  const { userType } = useUserContext();
+  useEffect(() => {
+    console.log(userType);
+  }, []);
 
-    useEffect(() => {
-        console.log(userType)
-    }, [])
+  function handleHome() {
+    router.push("/userFeed");
+  }
 
-    function handleHome() {
-        router.push("/userFeed")
+  function handleCamera() {
+    if (userType == "user") {
+      router.push("/userFeed");
+    } else {
+      router.push("/myissues");
     }
+  }
 
-    function handleCamera() {
-        if (userType == 'user') {
-            router.push("/userFeed")
-        } else {
-            router.push("/myissues")
-        }
-
-    }
-
-    return (
-      <Flex position='fixed' bg='gray.200' left='30%' top='92%'  h='5vh' w='40vw' borderRadius='25px' >
-        <Button h='100%' w='50%' borderRadius='25px 0 0 25px' onClick={handleHome}>
+  return (
+    <Flex
+      position="fixed"
+      bg="gray.200"
+      left="30%"
+      top="92%"
+      h="5vh"
+      w="40vw"
+      borderRadius="25px"
+    >
+      <Button
+        h="100%"
+        w="50%"
+        borderRadius="25px 0 0 25px"
+        onClick={handleHome}
+      >
         <HomeIcon />
-        </Button>
-        <Button h='100%' w='50%' borderRadius='0 25px 25px 0' onClick={handleCamera}>
+      </Button>
+      <Button
+        h="100%"
+        w="50%"
+        borderRadius="0 25px 25px 0"
+        onClick={handleCamera}
+      >
         <CameraIcon />
-        </Button>
-      </Flex>
-    );
-    
+      </Button>
+    </Flex>
+  );
 }

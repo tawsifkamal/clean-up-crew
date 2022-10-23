@@ -10,8 +10,7 @@ import {
   Heading,
   Textarea,
 } from "@chakra-ui/react";
-import { useState, useContext } from "react";
-import { userContext } from "../pages/userFeed";
+import { useUserContext } from "../lib/userContext";
 
 export const PinIcon = createIcon({
   displayName: "PinIcon",
@@ -72,7 +71,7 @@ export default function IssueFeedCard({
   imageUrl,
   location,
 }) {
-  const userType = useContext(userContext);
+  const { userType } = useUserContext();
   return (
     <Box
       my="4"

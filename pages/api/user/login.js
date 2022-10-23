@@ -7,13 +7,14 @@ export default async function handler(req, res) {
 
     const name = req.body.name;
     const userType = req.body.userType;
+    const currentLocation = req.body.currentLocation;
 
     const query = {
       name,
       userType,
     };
 
-    const update = query;
+    const update = { ...query, currentLocation };
 
     const options = {
       upsert: true,
@@ -23,7 +24,6 @@ export default async function handler(req, res) {
 
     const result = await User.findOneAndUpdate(query, update, options);
 
-    // let user = await User.findOne({ name });
     res.status(200).json(result);
   } catch (err) {
     console.log(err);
