@@ -112,24 +112,17 @@ export default function IssueFeedCard({
     setIsLiked(true);
   };
 
-  const acceptPost = async () => {
-    const body = {
-      userId : userId,
-      postId : postId
-    }
-    const response = await axios.put("api/post/post-accept", body)
-  }
-
   const handlePost = async (postState) => {
-    if (postState == 'open') {
+    if (postState == "open") {
       const body = {
         userId : userId,
         postId : postId
       }
-      const response = await axios.put("api/post/post-resolve", body)
-    } else if (postState == 'pending') {
-      router.push("image-upload/[" + postId + "]")
+      const response = await axios.put("api/post/post-accept", body)
+    } else if (postState == "pending") {
+      router.push("image-upload/postId?" + postId);
     }
+    //router.reload()
   }
 
   return (
@@ -179,7 +172,7 @@ export default function IssueFeedCard({
                   ? "yellow.400"
                   : "red.400"
               }
-              onClick={acceptPost}
+              onClick={(e) => {handlePost(postState)}}
             >
               <StarIcon />
               <Text>{postState}</Text>

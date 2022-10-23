@@ -45,6 +45,8 @@ export default function MyIssues({posts}) {
                 totalContributed={post.totalContributed}
                 imageUrl={post.imageUrl}
                 location={post.location.readableAddress}
+                postState={post.postState}
+                postId={post._id}
               />
             );
           })}
