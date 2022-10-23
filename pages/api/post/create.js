@@ -1,29 +1,27 @@
 import dbConnect from "../../../lib/dbConnect";
 const Post = require("../../../lib/models/Post");
-import getLocation from "../../../lib/hooks/useGeoLocation";
 
 export default async function handler(req, res) {
-  try {
-    await dbConnect();
-
-    const body = {
-      name: req.body.name,
-      totalContributed: req.body.totalContributed,
-      contributors: req.body.contributors,
-      contractor: req.body.contractor,
-      score: req.body.score,
-      description: req.body.description,
-      location: req.body.location,
-      imageUrl: req.body.imageUrl,
-      postState: req.body.postState,
-      postSolution: req.body.postSolution,
-    };
-
-    const post = new Post(body);
-    const createdPost = await Post.create(post);
-    res.status(201).json(createdPost);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send(err);
-  }
+    try {
+        await dbConnect();
+        const post = {}
+        // provided
+        post.name = req.body.name;
+        post.description = req.body.description;
+        post.fileUrl = req.body.fileUrl
+        post.location = req.body.location;
+        // default
+        post.totalContributed = 0;
+        post.contributors = [];
+        post.contractor = "";
+        post.postState = "open"
+        post.postSolution = {}
+        post.score = 0;
+        
+        const createdPost = await Post.create(post)
+        res.status(201).json(createdPost);
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({ message: "Internal server error :(" })
+    }
 }
